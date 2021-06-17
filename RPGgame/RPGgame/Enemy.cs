@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 
 public class Enemy
@@ -9,29 +10,60 @@ public class Enemy
     private int maxLife;
     private int life;
     private int maxMana;
-    private int Mana;
+    private int mana;
     private int MinAttack;
     private int MaxAttack;
-    public Enemy(string name, int maxLife, int maxMana, int minaAttack, int maxAttack) // Creas el constructor de Player
+
+    public Enemy()
+    {
+
+    }
+    public Enemy(string name, int maxLife, int maxMana, int minAttack, int maxAttack) // Creas el constructor de Player
     {
         this.name = name;
         this.maxLife = maxLife;
         this.life = maxLife;
         this.maxMana = maxMana;
-        this.Mana = maxMana;
+        this.mana = maxMana;
         this.MinAttack = minAttack;
-        this.maxAttack = maxAttack;
+        this.MaxAttack = maxAttack;
+    }
+
+    public BinaryWriter Save(BinaryWriter bw)
+    {
+        bw.Write(name);
+        bw.Write(maxLife);
+        bw.Write(life);
+        bw.Write(maxMana);
+        bw.Write(mana);
+        bw.Write(MinAttack);
+        bw.Write(MaxAttack);
+        return bw;
+    }
+
+    public BinaryReader Load(BinaryReader br)
+    {
+        name = br.ReadString();
+        maxLife = br.ReadInt32();
+        life = br.ReadInt32();
+        maxMana = br.ReadInt32();
+        mana = br.ReadInt32();
+        MinAttack = br.ReadInt32();
+        MaxAttack = br.ReadInt32();
+        return br;
     }
     public Player Attack (Player player)
     {
-        player.DoDamage(attack);
+        Random random = new Random();
+        int damage = random.Next(MinAttack, MaxAttack);
+        player.DoDamage(damage);
         return player;
     }
     public string GetStatus()
     {
         string status = "";
-        status += "Name: " + name;
-        status += "Life: " + life \n
+        status += "Name: " + name + "\n";
+        status += "Life: " + life + "\n";
         return status;
     }
     public void DoDamage(int amount)
@@ -44,7 +76,7 @@ public class Enemy
     }
     public bool IsDead()
     {
-
+        return life <= 0;
     }
 }
 

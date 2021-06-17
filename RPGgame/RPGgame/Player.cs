@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 public class Player
 {
@@ -10,6 +11,11 @@ public class Player
     private int maxMana;
     private int mana;
     private Locations location;
+
+    public Player() //Constructor vacío. Alojo el espacio en la memoria RAM para que el valor de la variable no sea NULO.
+    {
+
+    }
     public Player (string name, int maxLife, int maxMana, Locations spawnPoint) // Creas el constructor de Player
     {
         this.name = name;
@@ -20,6 +26,26 @@ public class Player
         location = spawnPoint;
     }
 
+    public BinaryWriter Save(BinaryWriter bw)
+    {
+        bw.Write(name);
+        bw.Write(maxLife);
+        bw.Write(life);
+        bw.Write(mana);
+        bw.Write(maxMana);
+        bw.Write((int)location);
+        return bw;
+    }
+    public BinaryReader Load(BinaryReader br)
+    {
+        name = br.ReadString();   //Importante mantener el orden.
+        maxLife = br.ReadInt32();
+        life = br.ReadInt32();
+        mana = br.ReadInt32();
+        maxMana = br.ReadInt32();
+        location = (Locations)br.ReadInt32();
+        return br; //Para devolver donde se quedo el puntero de lectura.
+    }
     public void Heal() // Cuando te curas por la posada, para volver 
     {
         life = maxLife;
@@ -52,6 +78,10 @@ public class Player
     {
         location = Locations.Tower;
     }
+    public void GoToInn()
+    {
+        location = Locations.Inn;
+    }
     public void DoDamage(int amount)
     {
         life -= amount;
@@ -60,7 +90,7 @@ public class Player
             Console.WriteLine("Moriste");
         }
     }
-    public void Attack(List<Enemy>enemies)
+    public List<Enemy> Attack(List<Enemy>enemies)
     {
         Console.WriteLine("Select an enemy");
         for (int i = 0; i < enemies.Count; i++)
@@ -69,7 +99,7 @@ public class Player
             Console.WriteLine(enemies[i].GetStatus());
         }
         Console.WriteLine("Attack!");
-        Console.WriteLine("Select an index from 0 to " + enemies.Count);
+        Console.WriteLine("Select an index from 0 to " + (enemies.Count -1));
         int input = Convert.ToInt32(Console.ReadLine());
         if (input >= 0 && input < enemies.Count)
         {

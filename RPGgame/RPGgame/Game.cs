@@ -16,7 +16,7 @@ class Game
     
     public Game()
     {
-        bool load = true;
+        bool load = false; //Si coloco true, como no tengo ningun archivo guardado me dice que el player es null
         if(load)
         {
             LoadGame();
@@ -78,6 +78,10 @@ class Game
             br = tower.Load(br);
             br.Close();
             file.Close();
+        }
+        else
+        {
+            Console.WriteLine("No existe ninguna partida guardada");
         }
     }
 

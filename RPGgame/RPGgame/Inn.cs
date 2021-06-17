@@ -23,7 +23,7 @@ class Inn
         {
             Console.WriteLine("Rest = 0   -   Leave = 1");
             int input = Convert.ToInt32(Console.ReadLine());
-            if (input >= 0 && input <= (int)Options.Error)
+            if (input >= 0 && input < (int)Options.Error)
             {
                 option = (Options)input;
             }
@@ -35,7 +35,7 @@ class Inn
             switch (option)
             {
                 case Options.Rest:
-                    Rest(player);
+                    player = Rest(player);
                     break;
                 case Options.Leave:
                     player.GoToTower();

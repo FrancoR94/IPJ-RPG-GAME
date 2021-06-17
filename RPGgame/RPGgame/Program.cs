@@ -5,12 +5,19 @@ class Program
 {
     static void Main(string[] args)
     {
-        bool gameOpen = true;
-        Game game = new Game();
-        do
+        //try
+        //{
+            bool gameOpen = true;
+            Game game = new Game();
+            do // GAMELOOP QUE SE UTILIZA EN TODOS LOS VIDEOJUEGOS!!
+            {
+                gameOpen = game.Play();
+            } while (gameOpen);
+        //}
+        /*catch (Exception)
         {
-            gameOpen = game.Play();
-        } while (gameOpen);
+            Console.WriteLine("ERROR INESPERADO!");
+        }*/
     }
 }
-
+// Acá tambien se coloca el anticheat y los dlcs
